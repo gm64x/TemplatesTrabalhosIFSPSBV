@@ -1,0 +1,312 @@
+name: CI
+
+on:
+  push:
+    branches: [master, main]
+    tags: ["v*"]
+  pull_request:
+  workflow_dispatch:
+  workflow_call:
+
+permissions:
+  contents: read
+  pull-requests: read
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  changes:
+    name: Detect relevant changes
+    runs-on: ubuntu-latest
+    outputs:
+      documents: ${{ steps.filter.outputs.documents }}
+      docker: ${{ steps.filter.outputs.docker }}
+      tests: ${{ steps.filter.outputs.tests }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dorny/paths-filter@v3
+        id: filter
+        with:
+          filters: |
+            documents:
+              - '**/*.tex'
+              - '**/*.sty'
+              - '**/*.bst'
+              - '**/*.bib'
+              - 'recursos/**'
+              - 'Dockerfile'
+              - '.dockerignore'
+              - '.config/scripts/build.sh'
+            docker:
+              - 'Dockerfile'
+              - '.dockerignore'
+              - '.config/scripts/build.sh'
+            tests:
+              - '.config/scripts/**'
+              - '.github/workflows/ci.yml'
+
+  test:
+    name: Validate development changes
+    needs: changes
+    if: >-
+      github.event_name == 'pull_request' &&
+      (needs.changes.outputs.documents == 'true' ||
+       needs.changes.outputs.tests == 'true')
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Test scripts
+        run: sh -n .config/scripts/*.sh
+
+      - name: Restore monograph
+        id: monograph
+        uses: actions/cache@v4
+        with:
+          path: artifacts/monografia.pdf
+          key: monograph-${{ hashFiles('Dockerfile', '.config/scripts/build.sh', 'main.tex', '.config/**', 'modelos/monografia/**', 'recursos/**', 'referencias/**') }}
+
+      - name: Restore technical report
+        id: report
+        uses: actions/cache@v4
+        with:
+          path: artifacts/relatorio.pdf
+          key: report-${{ hashFiles('Dockerfile', '.config/scripts/build.sh', 'main.tex', '.config/**', 'modelos/relatorio/**', 'recursos/**', 'referencias/**') }}
+
+      - name: Restore article
+        id: article
+        uses: actions/cache@v4
+        with:
+          path: artifacts/artigo.pdf
+          key: article-${{ hashFiles('Dockerfile', '.config/scripts/build.sh', 'main.tex', '.config/**', 'modelos/artigo/**', 'recursos/**', 'referencias/**') }}
+
+      - name: Restore presentation
+        id: presentation
+        uses: actions/cache@v4
+        with:
+          path: artifacts/apresentacao.pdf
+          key: presentation-${{ hashFiles('Dockerfile', '.config/scripts/build.sh', 'apresentacao.tex', '.config/**', 'modelos/apresentacao/**', 'recursos/**', 'referencias/**') }}
+
+      - uses: docker/setup-buildx-action@v3
+
+      - name: Build environment
+        if: >-
+          steps.monograph.outputs.cache-hit != 'true' ||
+          steps.report.outputs.cache-hit != 'true' ||
+          steps.article.outputs.cache-hit != 'true' ||
+          steps.presentation.outputs.cache-hit != 'true'
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          target: monografia
+          load: true
+          tags: templates-tcc:ci
+          cache-from: type=gha,scope=environment-${{ hashFiles('Dockerfile', '.dockerignore', '.config/scripts/build.sh') }}
+          cache-to: type=gha,mode=max,scope=environment-${{ hashFiles('Dockerfile', '.dockerignore', '.config/scripts/build.sh') }}
+
+      - name: Build monograph
+        if: steps.monograph.outputs.cache-hit != 'true'
+        run: |
+          mkdir -p artifacts
+          docker run --rm -e MODEL=monografia -e OUTPUT_NAME=monografia.pdf \
+            -v "$PWD:/workspace:ro" -v "$PWD/artifacts:/output" \
+            templates-tcc:ci
+
+      - name: Build technical report
+        if: steps.report.outputs.cache-hit != 'true'
+        run: |
+          mkdir -p artifacts
+          docker run --rm -e MODEL=relatorio -e OUTPUT_NAME=relatorio.pdf \
+            -v "$PWD:/workspace:ro" -v "$PWD/artifacts:/output" \
+            templates-tcc:ci
+
+      - name: Build article
+        if: steps.article.outputs.cache-hit != 'true'
+        run: |
+          mkdir -p artifacts
+          docker run --rm -e MODEL=artigo -e OUTPUT_NAME=artigo.pdf \
+            -v "$PWD:/workspace:ro" -v "$PWD/artifacts:/output" \
+            templates-tcc:ci
+
+      - name: Build presentation
+        if: steps.presentation.outputs.cache-hit != 'true'
+        run: |
+          mkdir -p artifacts
+          docker run --rm -e OUTPUT_NAME=apresentacao.pdf \
+            -v "$PWD:/workspace:ro" -v "$PWD/artifacts:/output" \
+            templates-tcc:ci presentation
+
+      - name: Validate development artifacts
+        env:
+          EXPECTED_ARTIFACTS: monografia.pdf relatorio.pdf artigo.pdf apresentacao.pdf
+        run: .config/scripts/test.sh artifacts
+
+  validate-release:
+    name: Validate release candidate
+    needs: [changes, test]
+    if: >-
+      always() &&
+      (needs.test.result == 'success' || needs.test.result == 'skipped') &&
+      (github.event_name == 'workflow_dispatch' ||
+       github.event_name == 'workflow_call' ||
+       github.ref == 'refs/heads/master' ||
+       github.ref == 'refs/heads/main' ||
+       startsWith(github.ref, 'refs/tags/v'))
+    runs-on: ubuntu-latest
+    steps:
+      - name: Fresh checkout
+        uses: actions/checkout@v4
+
+      - name: Clean Docker builds and complete smoke test
+        run: .config/scripts/smoke-test.sh --no-cache
+
+      - name: Upload validated artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: release-candidates
+          path: |
+            artifacts/monografia.pdf
+            artifacts/relatorio.pdf
+            artifacts/artigo.pdf
+            artifacts/apresentacao.pdf
+          if-no-files-found: error
+
+  publish-image:
+    name: Publish ${{ matrix.model }} image
+    needs: [changes, validate-release]
+    if: >-
+      needs.validate-release.result == 'success' &&
+      github.event_name != 'pull_request' &&
+      (needs.changes.outputs.docker == 'true' ||
+       startsWith(github.ref, 'refs/tags/v') ||
+       github.event_name == 'workflow_dispatch')
+    strategy:
+      matrix:
+        model: [monografia, relatorio, artigo, apresentacao]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: docker/setup-buildx-action@v3
+      - uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ghcr.io/${{ github.repository }}
+          tags: |
+            type=raw,value=${{ matrix.model }}-latest,enable={{is_default_branch}}
+            type=raw,value=latest,enable=${{ matrix.model == 'monografia' && github.ref_name == github.event.repository.default_branch }}
+            type=sha,prefix=${{ matrix.model }}-
+            type=ref,event=tag,prefix=${{ matrix.model }}-
+      - uses: docker/build-push-action@v6
+        with:
+          context: .
+          target: ${{ matrix.model }}
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          cache-from: type=gha,scope=environment-${{ hashFiles('Dockerfile', '.dockerignore', '.config/scripts/build.sh') }}
+          cache-to: type=gha,mode=max,scope=environment-${{ hashFiles('Dockerfile', '.dockerignore', '.config/scripts/build.sh') }}
+
+  overleaf:
+    name: Synchronize optional Overleaf project
+    needs: validate-release
+    if: >-
+      needs.validate-release.result == 'success' &&
+      (github.ref == 'refs/heads/master' || github.ref == 'refs/heads/main')
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Push validated revision when configured
+        env:
+          OVERLEAF_GIT_TOKEN: ${{ secrets.OVERLEAF_GIT_TOKEN }}
+          OVERLEAF_PROJECT_ID: ${{ secrets.OVERLEAF_PROJECT_ID }}
+        run: |
+          if [ -z "$OVERLEAF_GIT_TOKEN" ] || [ -z "$OVERLEAF_PROJECT_ID" ]; then
+            echo "Overleaf Git is not configured; skipping optional synchronization."
+            exit 0
+          fi
+          git remote add overleaf "https://git:${OVERLEAF_GIT_TOKEN}@git.overleaf.com/${OVERLEAF_PROJECT_ID}"
+          git push --force overleaf HEAD:master
+
+  release:
+    name: Publish GitHub Release
+    needs: validate-release
+    if: needs.validate-release.result == 'success' && startsWith(github.ref, 'refs/tags/v')
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: release-candidates
+          path: release
+      - name: Assemble and validate source packages
+        run: |
+          set -euo pipefail
+          copy_base() {
+            destination="$1"
+            mkdir -p "$destination/modelos"
+            cp -R .agents .config recursos referencias "$destination/"
+            cp .dockerignore .gitignore Dockerfile LICENSE.md Makefile README.md "$destination/"
+          }
+          create_document() {
+            model="$1"
+            destination="release/template-$model"
+            copy_base "$destination"
+            cp main.tex "$destination/"
+            cp -R "modelos/$model" "$destination/modelos/"
+            sed -i "s/{monografia}/{${model}}/" "$destination/.config/modelo.tex"
+            rm -f "$destination/.config/tex/estrutura/apresentacao.sty"
+            rm -rf "$destination/recursos/apresentacao"
+            (cd release && zip -qr "template-$model.zip" "template-$model")
+            rm -rf "$destination"
+          }
+          create_combined() {
+            model="$1"
+            destination="release/template-$model-com-apresentacao"
+            copy_base "$destination"
+            cp main.tex apresentacao.tex "$destination/"
+            cp -R "modelos/$model" modelos/apresentacao "$destination/modelos/"
+            sed -i "s/{monografia}/{${model}}/" "$destination/.config/modelo.tex"
+            (cd release && zip -qr "template-$model-com-apresentacao.zip" "template-$model-com-apresentacao")
+            rm -rf "$destination"
+          }
+          create_presentation() {
+            destination="release/template-apresentacao"
+            copy_base "$destination"
+            cp apresentacao.tex "$destination/apresentacao.tex"
+            cp apresentacao.tex "$destination/main.tex"
+            cp -R modelos/apresentacao "$destination/modelos/"
+            rm -f "$destination/.config/modelo.tex"
+            rm -f "$destination/.config/tex/estrutura/academico.sty"
+            rm -rf "$destination/recursos/documentos"
+            (cd release && zip -qr template-apresentacao.zip template-apresentacao)
+            rm -rf "$destination"
+          }
+          for model in monografia relatorio artigo; do
+            create_document "$model"
+            create_combined "$model"
+          done
+          create_presentation
+          for archive in release/*.zip; do
+            unzip -tqq "$archive"
+          done
+      - name: Publish release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: >-
+          gh release create "$GITHUB_REF_NAME"
+          release/*.pdf release/*.zip
+          --generate-notes --title "$GITHUB_REF_NAME"
