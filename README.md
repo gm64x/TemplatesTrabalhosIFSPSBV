@@ -23,6 +23,10 @@ Templates LaTeX para trabalhos acadêmicos do IFSP — Câmpus São João da Boa
 
 A apresentação usa a entrada independente `slide.tex`. As referências compartilhadas ficam em `recursos/referencias/referencias.bib`.
 
+## Manuais
+
+Manuais detalhados estão disponíveis na [Wiki do projeto](https://github.com/gm64x/TemplatesTrabalhosIFSPSBV/wiki).
+
 ## Estrutura
 
 ```text
