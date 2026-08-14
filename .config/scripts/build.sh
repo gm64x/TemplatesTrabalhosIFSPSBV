@@ -8,6 +8,8 @@ tmp_dir="$(mktemp -d)"
 trap 'rm -rf "$tmp_dir"' EXIT
 mkdir -p "$output_dir"
 
+export BIBINPUTS="/workspace:"
+export BSTINPUTS="/workspace:"
 validate_pdf() {
     pdf="$1"
     log="$2"
