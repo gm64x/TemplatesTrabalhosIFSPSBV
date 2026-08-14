@@ -1,5 +1,3 @@
-# Apresentação
-
 A apresentação é um projeto Beamer independente dos modelos de monografia, relatório e artigo. O ponto de entrada é [`slide.tex`](../../slide.tex), que carrega [`modelos/apresentacao/documento.tex`](../../modelos/apresentacao/documento.tex).
 
 ## Preencher os dados

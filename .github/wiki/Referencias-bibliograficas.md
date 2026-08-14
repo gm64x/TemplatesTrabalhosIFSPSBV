@@ -1,5 +1,3 @@
-# Referências bibliográficas
-
 As referências são compartilhadas por monografia, relatório, artigo e apresentação. Edite apenas [recursos/referencias/referencias.bib](../../recursos/referencias/referencias.bib); os documentos já chamam esse arquivo com `\bibliography{recursos/referencias/referencias}`.
 
 ## Citar uma obra

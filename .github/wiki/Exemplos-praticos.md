@@ -1,5 +1,3 @@
-# Exemplos práticos
-
 Esta página reúne exemplos que já fazem parte dos modelos. Os trechos completos continuam sendo a referência principal; os links abaixo apontam para os arquivos do projeto.
 
 ## Figura

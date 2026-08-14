@@ -1,5 +1,3 @@
-# Compilação
-
 Há dois modos suportados: Docker com Make (recomendado para reproduzir o ambiente do projeto) e uma instalação LaTeX local.
 
 ## Docker e Make

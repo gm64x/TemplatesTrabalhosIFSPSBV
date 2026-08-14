@@ -1,5 +1,3 @@
-# Configuração
-
 As configurações compartilhadas ficam em `.config/`. Edite os arquivos de configuração antes de alterar os capítulos ou slides.
 
 ## Modelo do documento

@@ -1,5 +1,3 @@
-# Primeiros passos
-
 Este repositório fornece modelos LaTeX baseados em abnTeX2 para monografia, relatório técnico, artigo e apresentação. O fluxo básico é: escolher o modelo, preencher os dados, editar o conteúdo e gerar o PDF.
 
 ## 1. Obtenha uma cópia do modelo

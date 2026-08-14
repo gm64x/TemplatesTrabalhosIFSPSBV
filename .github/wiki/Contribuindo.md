@@ -1,5 +1,3 @@
-# Contribuindo
-
 Contribuições devem manter os modelos compiláveis e preservar a separação entre configuração, modelos, recursos e scripts. Antes de propor uma mudança, leia o [README.md](../../README.md) e identifique qual modelo ela afeta: monografia, relatório, artigo ou apresentação.
 
 ## Fluxo recomendado

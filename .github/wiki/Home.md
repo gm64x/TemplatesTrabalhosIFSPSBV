@@ -1,5 +1,3 @@
-# Templates TCC
-
 Bem-vindo à documentação dos templates LaTeX para trabalhos acadêmicos do IFSP — Câmpus São João da Boa Vista. Os modelos são baseados em [abnTeX2](https://www.abntex.net.br/) e organizam a configuração, o texto e os recursos do trabalho em um fluxo único.
 
 ## Escolha um modelo

@@ -1,5 +1,3 @@
-# Solução de problemas
-
 ## Antes de investigar
 
 Confirme que está na raiz do projeto e que o arquivo referenciado existe. Os comandos oficiais estão no [README.md](../../README.md). A compilação local exige `latexmk`; a compilação reproduzível usa Docker e o script [build.sh](../../.config/scripts/build.sh).
