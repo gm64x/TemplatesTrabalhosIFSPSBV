@@ -162,6 +162,9 @@ jobs:
       - name: Fresh checkout
         uses: actions/checkout@v5
 
+      - name: Install PDF validation tools
+        run: sudo apt-get update && sudo apt-get install -y poppler-utils
+
       - name: Clean Docker builds and complete smoke test
         run: sh .config/scripts/smoke-test.sh --no-cache
 
