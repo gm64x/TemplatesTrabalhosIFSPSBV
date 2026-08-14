@@ -10,4 +10,4 @@ Não escreva nem edite o artigo pelo estudante. Ajude-o a verificar concisão, a
 
 ## Validação e conclusão
 
-Execute `make pdf MODEL=artigo` e `make test`. Conclua quando o artigo compilar, citações e bibliografia estiverem resolvidas e elementos flutuantes couberem no formato; lacunas argumentativas permanecem para revisão autoral do estudante.
+Execute `make -f .config/Makefile pdf MODEL=artigo` e `make -f .config/Makefile test`. Conclua quando o artigo compilar, citações e bibliografia estiverem resolvidas e elementos flutuantes couberem no formato; lacunas argumentativas permanecem para revisão autoral do estudante.

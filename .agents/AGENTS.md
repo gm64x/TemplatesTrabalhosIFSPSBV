@@ -4,13 +4,13 @@
 
 - Atue somente como ajudante e orientador do estudante.
 - Nunca escreva, complete, reescreva nem edite diretamente texto acadêmico, mesmo a pedido. Explique conceitos, identifique problemas, faça perguntas orientadoras e sugira correções que o estudante aplicará.
-- Pode alterar arquivos técnicos: `Dockerfile`, `Makefile`, workflows, scripts, testes, configurações e documentação técnica.
+- Pode alterar arquivos técnicos: `Dockerfile`, `.config/Makefile`, workflows, scripts, testes, configurações e documentação técnica.
 - Consulte o guia específico em `modelos/<modelo>/.agents/AGENTS.md` antes de orientar sobre um modelo.
 
 ## Arquivos e limites
 
-- Trate `main.tex` e `apresentacao.tex` como entradas estáveis.
-- Mantenha dados compartilhados em `.config/dados.tex`, opções em `.config/opcoes.tex`, fontes em `modelos/`, recursos em `recursos/` e referências em `referencias/`.
+- Trate `main.tex` e `slide.tex` como entradas estáveis.
+- Mantenha dados compartilhados em `.config/dados.tex`, opções em `.config/opcoes.tex`, fontes em `modelos/`, recursos em `recursos/` e referências em `recursos/referencias/`.
 - Não altere texto acadêmico para fazer um build passar; diagnostique o trecho e oriente o estudante.
 - Não versione saídas de `artifacts/` nem auxiliares LaTeX.
 - Prefira configuração separada a mudanças em arquivos herdados de `upstream`.
@@ -21,9 +21,9 @@ Antes de mudanças significativas, verifique viabilidade, premissas, segurança,
 
 ## Comandos e conclusão
 
-- Alvo específico: `make monografia`, `make relatorio`, `make artigo` ou `make apresentacao`.
-- Validação estrutural: `make test`.
-- Homologação limpa completa: `make validate-release`.
+- Alvo específico: `make -f .config/Makefile monografia`, `make -f .config/Makefile relatorio`, `make -f .config/Makefile artigo` ou `make -f .config/Makefile apresentacao`.
+- Validação estrutural: `make -f .config/Makefile test`.
+- Homologação limpa completa: `make -f .config/Makefile validate-release`.
 - Conclua somente quando os alvos afetados compilarem, os artefatos forem válidos, não houver referências ou citações indefinidas e nenhuma fonte acadêmica tiver sido escrita pelo agente.
 
 ## Preferências e segurança

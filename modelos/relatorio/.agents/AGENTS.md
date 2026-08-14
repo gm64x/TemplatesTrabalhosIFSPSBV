@@ -10,4 +10,4 @@ Não escreva nem edite o relatório pelo estudante. Ajude-o a conferir objetivid
 
 ## Validação e conclusão
 
-Execute `make pdf MODEL=relatorio` e `make test`. Conclua quando o relatório compilar, citações e listas estiverem resolvidas e os documentos pré-textuais habilitados existirem; a descrição e interpretação dos resultados permanecem com o estudante.
+Execute `make -f .config/Makefile pdf MODEL=relatorio` e `make -f .config/Makefile test`. Conclua quando o relatório compilar, citações e listas estiverem resolvidas e os documentos pré-textuais habilitados existirem; a descrição e interpretação dos resultados permanecem com o estudante.

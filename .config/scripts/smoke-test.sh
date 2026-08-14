@@ -57,4 +57,4 @@ MSYS_NO_PATHCONV=1 docker run --rm --entrypoint sh \
     '
 
 EXPECTED_ARTIFACTS="monografia.pdf relatorio.pdf artigo.pdf apresentacao.pdf" \
-    .config/scripts/test.sh "$artifacts"
+    sh .config/scripts/test.sh "$artifacts"

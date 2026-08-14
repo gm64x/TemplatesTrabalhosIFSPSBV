@@ -5,7 +5,7 @@
 .pdf/
 artifacts/
 main.pdf
-apresentacao.pdf
+slide.pdf
 
 # Arquivos auxiliares do LaTeX
 **/*.aux

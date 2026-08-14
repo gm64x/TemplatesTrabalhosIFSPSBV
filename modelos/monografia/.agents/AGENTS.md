@@ -10,4 +10,4 @@ Não escreva nem edite a monografia pelo estudante. Ajude-o a formular perguntas
 
 ## Validação e conclusão
 
-Execute `make pdf MODEL=monografia` e `make test`. Conclua quando o PDF compilar sem referências ou citações indefinidas e sumário, listas, bibliografia e paginação estiverem íntegros; revisões acadêmicas devem permanecer sob autoria do estudante.
+Execute `make -f .config/Makefile pdf MODEL=monografia` e `make -f .config/Makefile test`. Conclua quando o PDF compilar sem referências ou citações indefinidas e sumário, listas, bibliografia e paginação estiverem íntegros; revisões acadêmicas devem permanecer sob autoria do estudante.

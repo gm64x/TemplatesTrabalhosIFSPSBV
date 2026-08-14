@@ -22,17 +22,17 @@ presentation: image-apresentacao
 	docker run --rm -v "$(CURDIR):/workspace:ro" -v "$(CURDIR)/$(ARTIFACT_DIR):/output" $(IMAGE_PREFIX):apresentacao
 
 monografia relatorio artigo:
-	$(MAKE) pdf MODEL=$@ OUTPUT_NAME=$@.pdf
+	$(MAKE) -f .config/Makefile pdf MODEL=$@ OUTPUT_NAME=$@.pdf
 
 apresentacao: presentation
 
 all: pdf presentation
 
 test:
-	.config/scripts/test.sh $(ARTIFACT_DIR)
+	sh .config/scripts/test.sh $(ARTIFACT_DIR)
 
 validate-release:
-	.config/scripts/smoke-test.sh --no-cache
+	sh .config/scripts/smoke-test.sh --no-cache
 
 clean:
 	rm -rf $(ARTIFACT_DIR)

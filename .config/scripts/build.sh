@@ -33,11 +33,11 @@ build_main() {
 build_presentation() {
     output_name="${OUTPUT_NAME:-apresentacao.pdf}"
     latexmk -pdf -interaction=nonstopmode -halt-on-error \
-        -outdir="$tmp_dir/presentation" apresentacao.tex
-    test -s "$tmp_dir/presentation/apresentacao.pdf"
-    validate_pdf "$tmp_dir/presentation/apresentacao.pdf" \
-        "$tmp_dir/presentation/apresentacao.log"
-    cp "$tmp_dir/presentation/apresentacao.pdf" "$output_dir/$output_name"
+        -outdir="$tmp_dir/presentation" slide.tex
+    test -s "$tmp_dir/presentation/slide.pdf"
+    validate_pdf "$tmp_dir/presentation/slide.pdf" \
+        "$tmp_dir/presentation/slide.log"
+    cp "$tmp_dir/presentation/slide.pdf" "$output_dir/$output_name"
 }
 
 case "$command_name" in
