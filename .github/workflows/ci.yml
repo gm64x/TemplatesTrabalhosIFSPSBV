@@ -248,8 +248,9 @@ jobs:
   release:
     name: Publish GitHub Release
     needs: validate-release
-     if: needs.validate-release.result == 'success' &&
-         github.ref_type == 'tag' && startsWith(github.ref_name, 'v')
+    if: >-
+      needs.validate-release.result == 'success' &&
+      github.ref_type == 'tag' && startsWith(github.ref_name, 'v')
     runs-on: ubuntu-latest
     permissions:
       contents: write
