@@ -1,5 +1,3 @@
-# Sugestões de ferramentas
-
 Estas ferramentas são opcionais e podem facilitar a edição e a compilação dos modelos:
 
 | Ferramenta | Uso | Acesso | Documentação |
