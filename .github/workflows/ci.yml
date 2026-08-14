@@ -61,6 +61,9 @@ jobs:
       - name: Test scripts
         run: sh -n .config/scripts/*.sh
 
+      - name: Install PDF validation tools
+        run: sudo apt-get update && sudo apt-get install -y poppler-utils
+
       - name: Restore monograph
         id: monograph
         uses: actions/cache@v4
