@@ -1,0 +1,30 @@
+name: Publish wiki
+
+on:
+  push:
+    branches: [master]
+    paths:
+      - .github/wiki/**
+      - .github/workflows/publish-wiki.yml
+  workflow_dispatch:
+
+concurrency:
+  group: wiki
+  cancel-in-progress: true
+
+permissions:
+  contents: write
+
+jobs:
+  wiki:
+    name: Publish source pages
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the repository
+        uses: actions/checkout@v5
+
+      - name: Publish the GitHub Wiki
+        uses: Andrew-Chen-Wang/github-wiki-action@v5
+        with:
+          path: .github/wiki
+          commit-message: "Publish wiki from source"

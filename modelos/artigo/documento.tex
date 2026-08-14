@@ -1,0 +1,154 @@
+% Desenvolvido por: Prof. Dr. David Buzatto
+%
+% Versão 1.6.9
+% Data: 17/11/2025
+
+\documentclass[
+	article,
+	11pt,
+	oneside,
+	a4paper,
+	chapter=TITLE,
+	section=TITLE,
+	english,
+	brazil,
+	sumario=tradicional
+]{abntex2}
+
+\usepackage{.config/tex/estrutura/academico}
+\input{.config/dados}
+\input{.config/opcoes}
+
+% ---
+% Dados do documento
+% ---
+
+\tipotrabalho{Artigo}
+\titulo{\TCCTitulo}
+\instituicao{Instituto Federal de Educação, Ciência e Tecnologia de São Paulo}
+\campus{\TCCCampus}
+\area{\TCCArea}
+\palavraschave{\TCCPalavrasChave}
+\aluno{\TCCAutor}
+\local{\TCCLocal}
+\dia{\TCCDia}
+\mes{\TCCMes}
+\ano{\TCCAno}
+\curso{\TCCCurso}
+\grau{\TCCGrau}
+
+\orientador{\TCCOrientador}
+\gradorientador{\TCCGraduacaoOrientador}
+\instgradorientador{\TCCInstituicaoGraduacaoOrientador}
+\posorientador{\TCCPosGraduacaoOrientador}
+\instposorientador{\TCCInstituicaoPosGraduacaoOrientador}
+\docorientador{\TCCDocenciaOrientador}
+
+\ifstrempty{\TCCCoorientador}{}{%
+    \coorientador{\TCCCoorientador}
+    \gradcoorientador{\TCCGraduacaoCoorientador}
+    \instgradcoorientador{\TCCInstituicaoGraduacaoCoorientador}
+    \poscoorientador{\TCCPosGraduacaoCoorientador}
+    \instposcoorientador{\TCCInstituicaoPosGraduacaoCoorientador}
+    \doccoorientador{\TCCDocenciaCoorientador}
+}
+
+\definirdata
+\definirautores
+
+\makeindex
+
+\setlrmarginsandblock{3cm}{3cm}{*}
+\setulmarginsandblock{3cm}{3cm}{*}
+\checkandfixthelayout
+\setlength{\parindent}{1.3cm}
+\setlength{\parskip}{0.2cm}
+\setlength{\ABNTEXcitacaorecuo}{1.8cm}
+\SingleSpacing
+
+% ----
+% Início do documento
+% ----
+\begin{document}
+	
+	% Seleciona o idioma do documento
+	\selectlanguage{brazil}
+	
+	% Retira espaço extra obsoleto entre as frases.
+	\frenchspacing 
+	
+	% ----------------------------------------------------------
+	% ELEMENTOS PRÉ-TEXTUAIS
+	% ----------------------------------------------------------
+	
+	% Se desejar escrever o artigo em duas colunas, descomente a linha abaixo
+	% e a linha com o texto "FIM DE ARTIGO EM DUAS COLUNAS".
+	% \twocolumn[    		% INICIO DE ARTIGO EM DUAS COLUNAS
+    
+	% título
+	\maketitle
+    
+	% resumo em português
+	\begin{resumoumacoluna}
+		
+		Neste trabalho é apresentada a formatação que deve ser utilizada nos artigos a serem submetidos ao final dos cursos de Graduação e Pós-Graduação do IFSP câmpus São João da Boa Vista. Leia com atenção este documento. O máximo de palavras para o resumo é 250 (duzentos e cinquenta). 
+		
+		\vspace{\onelineskip}
+		
+		\noindent
+        % todas em letras minúsculas, separadas por ponto e vírgula (;)
+        \textbf{Palavras-chave}: palavra-chave 1; palavra-chave 2; palavra-chave 3; palavra-chave n.
+		
+	\end{resumoumacoluna}
+	
+    % resumo em inglês
+    \renewcommand{\resumoname}{Abstract}
+    \begin{resumoumacoluna}
+    	
+        \begin{otherlanguage*}{english}
+   	    	Resumo em inglês.
+   		
+       		\vspace{\onelineskip}
+   		
+   	    	\noindent
+   		    \textbf{Keywords}: keyword 1. keyword 2. keyword 3. keyword n.
+   		   
+      \end{otherlanguage*} 
+  
+   	\end{resumoumacoluna}
+        
+	% ]  				% FIM DE ARTIGO EM DUAS COLUNAS
+	
+	% ----------------------------------------------------------
+	% ELEMENTOS TEXTUAIS
+	% ----------------------------------------------------------
+	\textual
+	
+	% ----------------------------------------------------------
+	% Introdução
+	% ----------------------------------------------------------
+	\input{modelos/artigo/secoes/01Introducao.tex}
+	\input{modelos/artigo/secoes/02Desenvolvimento.tex}
+	\input{modelos/artigo/secoes/03ResultadosDiscussao.tex}
+	\input{modelos/artigo/secoes/04Conclusoes.tex}
+	\input{modelos/artigo/secoes/05Cronograma.tex}
+
+	% ----------------------------------------------------------
+	% ELEMENTOS PÓS-TEXTUAIS
+	% ----------------------------------------------------------
+	\postextual
+	\bibliography{recursos/referencias/referencias}
+	
+	%
+    % Este é um exemplo da ata de defesa.
+    %
+    % A ata de defesa será fornecida pelo professor orientador após a defesa do trabalho
+    % e o orientado será responsável em substituir o arquivo de exemplo pelo arquivo final.
+    %
+    \iftoggle{incluirAtaDefesa}{%
+            \begin{folhadeaprovacao}
+                \includepdf[pages={1-}]{recursos/documentos/exemploAtaDefesa.pdf}
+            \end{folhadeaprovacao}
+        }{}
+
+\end{document}
