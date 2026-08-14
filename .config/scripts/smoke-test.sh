@@ -8,14 +8,20 @@ no_cache="${1:-}"
 rm -rf "$artifacts"
 mkdir -p "$artifacts/reproducibility"
 
-build_image() {
-    model="$1"
+build_environment() {
     if [ "$no_cache" = "--no-cache" ]; then
-        docker build --no-cache --target "$model" --tag "$image_prefix:$model" .
+        docker build --no-cache --target ambiente --tag "$image_prefix:ambiente" .
     else
-        docker build --target "$model" --tag "$image_prefix:$model" .
+        docker build --target ambiente --tag "$image_prefix:ambiente" .
     fi
 }
+
+build_image() {
+    model="$1"
+    docker build --target "$model" --tag "$image_prefix:$model" .
+}
+
+build_environment
 
 for model in monografia relatorio artigo apresentacao; do
     build_image "$model"
