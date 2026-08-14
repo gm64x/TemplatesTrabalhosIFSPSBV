@@ -1,0 +1,40 @@
+% Desenvolvido por: Prof. Dr. David Buzatto
+%
+% Versão 1.6.5
+% Data: 17/11/2025
+\documentclass[aspectratio=169]{beamer}
+
+% A opção hideSubsectionTitle esconde o título das subseções.
+\usepackage{.config/tex/estrutura/apresentacao}
+\input{.config/dados}
+\input{.config/opcoes}
+
+\titulo{\TCCTitulo}
+\subtitulo{\TCCSubtitulo}
+\autor{\TCCAutor}
+\orientador{\TCCOrientador}
+\ifstrempty{\TCCCoorientador}{}{\coorientador{\TCCCoorientador}}
+\curso{\TCCCurso}
+\local{\TCCLocal}
+\dia{\TCCDia}
+\mes{\TCCMes}
+\ano{\TCCAno}
+
+\begin{document}
+
+
+\input{modelos/apresentacao/slides/01Capa}
+\input{modelos/apresentacao/slides/02Introducao}
+\input{modelos/apresentacao/slides/03RevisaoLiteraturaConsideracoesGerais}
+\input{modelos/apresentacao/slides/04Metodologia}
+\input{modelos/apresentacao/slides/05Resultados}
+\input{modelos/apresentacao/slides/06Conclusao}
+
+
+% exemplos de construções em LaTeX
+% comente a linha abaixo para gerar a versão final
+\iftoggle{incluirExemplos}{\input{modelos/apresentacao/slides/07Exemplos}}{}
+
+\input{modelos/apresentacao/slides/00Referencias}
+
+\end{document} 

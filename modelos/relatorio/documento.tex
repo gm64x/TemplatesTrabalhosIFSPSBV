@@ -1,0 +1,105 @@
+% Desenvolvido por: Prof. Dr. David Buzatto
+%
+% Versão 1.6.5
+% Data: 17/11/2025
+
+\documentclass[
+	12pt,
+   	oneside,
+   	a4paper,
+   	chapter=TITLE,
+   	english,
+   	french,
+   	spanish,
+   	brazil,
+]{abntex2}
+
+\usepackage{.config/tex/estrutura/academico}
+\input{.config/dados}
+\input{.config/opcoes}
+
+% ---
+% Dados do documento
+% ---
+
+\tipotrabalho{Relatório Técnico}
+\titulo{\TCCTitulo}
+\subtitulo{\TCCSubtitulo}
+\autor{\TCCAutor}
+\orientador{\TCCOrientador}
+\ifstrempty{\TCCCoorientador}{}{\coorientador{\TCCCoorientador}}
+\curso{\TCCCurso}
+\grau{\TCCGrau}
+\campus{\TCCCampus}
+\area{\TCCArea}
+\palavraschave{\TCCPalavrasChave}
+\local{\TCCLocal}
+\mes{\TCCMes}
+\ano{\TCCAno}
+
+\instituicao{%
+	Instituto Federal de Educação, Ciência e Tecnologia de São Paulo
+	\par
+	Câmpus \imprimircampus
+}
+
+\preambulo{\imprimirtipotrabalho\ elaborado conforme a ABNT NBR 10719:10, apresentado ao Instituto Federal de Educação, Ciência e Tecnologia de São Paulo, como parte dos requisitos para a obtenção do grau de \imprimirgrau.
+\\
+\\
+Área de Concentração: \imprimirarea}
+
+\setlength{\parindent}{1.3cm}
+\setlength{\parskip}{0.2cm}
+
+\makeindex
+
+% ---------------------------------------------------------------------------------
+%                                   INÍCIO DO DOCUMENTO
+% ---------------------------------------------------------------------------------
+\begin{document}
+
+% Seleciona o idioma do documento
+\selectlanguage{brazil}
+
+% Retira espaço extra obsoleto entre as frases.
+\frenchspacing 
+
+\pretextual
+\input{modelos/relatorio/pretextuais/01Capa}
+\input{modelos/relatorio/pretextuais/02FolhaDeRosto}
+
+% ---
+% Inserir a ficha catalográfica
+% ---
+\iftoggle{incluirFichaCatalografica}{\input{modelos/relatorio/pretextuais/03FichaCatalografica}}{}
+
+% ---
+% Inserir ata de defesa
+% ---
+\iftoggle{incluirAtaDefesa}{\input{modelos/relatorio/pretextuais/04AtaDefesa}}{}
+
+% ---
+% inserir o sumário
+% ---
+\pdfbookmark[0]{\contentsname}{toc}
+\tableofcontents*
+\cleardoublepage
+% ---
+
+\input{modelos/relatorio/pretextuais/05Resumo}
+
+\textual
+\input{modelos/relatorio/capitulos/01Introducao}
+\input{modelos/relatorio/capitulos/02ConsideracoesGerais}
+\input{modelos/relatorio/capitulos/03Metodologia}
+\input{modelos/relatorio/capitulos/04AnaliseDosResultados}
+\input{modelos/relatorio/capitulos/05ConclusoesRecomendacoes}
+
+
+% ----------------------------------------------------------
+% Referências bibliográficas
+% ----------------------------------------------------------
+\postextual
+\bibliography{referencias/referencias}
+
+\end{document}
