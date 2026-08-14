@@ -8,5 +8,6 @@
 - [Referências bibliográficas](Referencias-bibliograficas)
 - [Apresentação](Apresentacao)
 - [Exemplos práticos](Exemplos-praticos)
+- [Sugestões de ferramentas](Sugestoes-de-ferramentas)
 - [Solução de problemas](Solucao-de-problemas)
 - [Contribuindo](Contribuindo)
