@@ -37,7 +37,7 @@ Em um ambiente LaTeX local, também é possível usar:
 
 ```bash
 latexmk -pdf main.tex
-latexmk -pdf slide.tex
+latexmk -pdf modelos/apresentacao/slide.tex
 ```
 
 Os PDFs são gravados em `artifacts/`. Para validar artefatos existentes ou verificar todos os modelos em Docker:

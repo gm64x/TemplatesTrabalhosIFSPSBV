@@ -1,4 +1,4 @@
-A apresentação é um projeto Beamer independente dos modelos de monografia, relatório e artigo. O ponto de entrada é [`slide.tex`](../../slide.tex), que carrega [`modelos/apresentacao/documento.tex`](../../modelos/apresentacao/documento.tex).
+A apresentação é um projeto Beamer independente dos modelos de monografia, relatório e artigo. O ponto de entrada é [`modelos/apresentacao/slide.tex`](../../modelos/apresentacao/slide.tex).
 
 ## Preencher os dados
 
@@ -34,7 +34,7 @@ make -f .config/Makefile apresentacao
 O resultado esperado é `artifacts/apresentacao.pdf`. Também é possível compilar localmente:
 
 ```bash
-latexmk -pdf slide.tex
+latexmk -pdf modelos/apresentacao/slide.tex
 ```
 
 Para verificar o PDF e testar a compilação reproduzível junto com os demais modelos:

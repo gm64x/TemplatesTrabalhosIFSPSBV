@@ -96,7 +96,7 @@ jobs:
         uses: actions/cache@v5
         with:
           path: artifacts/apresentacao.pdf
-          key: presentation-${{ hashFiles('Dockerfile', '.config/scripts/build.sh', 'slide.tex', '.config/**', 'modelos/apresentacao/**', 'recursos/**') }}
+          key: presentation-${{ hashFiles('Dockerfile', '.config/scripts/build.sh', '.config/**', 'modelos/apresentacao/**', 'recursos/**') }}
 
       - uses: docker/setup-buildx-action@v4
 
@@ -294,22 +294,21 @@ jobs:
             model="$1"
             destination="release/template-$model-com-apresentacao"
             copy_base "$destination"
-            cp main.tex slide.tex "$destination/"
+            cp main.tex "$destination/"
             cp -R "modelos/$model/." "$destination/"
             cp -R modelos/apresentacao "$destination/apresentacao"
             sed -i "s/{monografia}/{${model}}/" "$destination/.config/modelo.tex"
             sed -i "s|modelos/$model/||g" "$destination/main.tex" "$destination/documento.tex"
-            sed -i 's|modelos/apresentacao/|apresentacao/|g' "$destination/slide.tex" "$destination/apresentacao/documento.tex"
+            sed -i 's|modelos/apresentacao/|apresentacao/|g' "$destination/apresentacao/slide.tex" "$destination/.config/scripts/build.sh"
             (cd "$destination" && zip -qr "../template-$model-com-apresentacao.zip" .)
             rm -rf "$destination"
           }
           create_presentation() {
             destination="release/template-apresentacao"
             copy_base "$destination"
-            cp slide.tex "$destination/slide.tex"
-            cp slide.tex "$destination/main.tex"
             cp -R modelos/apresentacao/. "$destination/"
-            sed -i 's|modelos/apresentacao/||g' "$destination/main.tex" "$destination/slide.tex" "$destination/documento.tex"
+            cp "$destination/slide.tex" "$destination/main.tex"
+            sed -i 's|modelos/apresentacao/||g' "$destination/main.tex" "$destination/slide.tex" "$destination/.config/scripts/build.sh"
             rm -f "$destination/.config/modelo.tex"
             rm -f "$destination/.config/tex/estrutura/academico.sty"
             rm -rf "$destination/recursos/documentos"
@@ -329,6 +328,14 @@ jobs:
             fi
           done
           unzip -Z1 release/template-relatorio.zip | grep -Eq '^(\./)?capitulos/'
+          for model in monografia relatorio artigo; do
+            archive="release/template-$model-com-apresentacao.zip"
+            unzip -Z1 "$archive" | grep -Eq '^(\./)?apresentacao/slide\.tex$'
+            if unzip -Z1 "$archive" | grep -Eq '^(\./)?slide\.tex$'; then
+              echo "Unexpected root slide.tex in $archive" >&2
+              exit 1
+            fi
+          done
       - name: Publish release
         env:
           GH_TOKEN: ${{ github.token }}

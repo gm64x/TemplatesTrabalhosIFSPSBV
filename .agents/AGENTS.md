@@ -9,7 +9,7 @@
 
 ## Arquivos e limites
 
-- Trate `main.tex` e `slide.tex` como entradas estáveis.
+- Trate `main.tex` e `modelos/apresentacao/slide.tex` como entradas estáveis.
 - Mantenha dados compartilhados em `.config/dados.tex`, opções em `.config/opcoes.tex`, fontes em `modelos/`, recursos em `recursos/` e referências em `recursos/referencias/`.
 - Não altere texto acadêmico para fazer um build passar; diagnostique o trecho e oriente o estudante.
 - Não versione saídas de `artifacts/` nem auxiliares LaTeX.

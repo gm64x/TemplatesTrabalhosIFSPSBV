@@ -2,7 +2,7 @@
 
 ## Escopo e arquivos
 
-Oriente sobre `slides/` e a ordem em `documento.tex`. Alterações técnicas podem alcançar o tema compartilhado e `recursos/apresentacao/`; preserve `slide.tex` como entrada estável.
+Oriente sobre `slides/` e a ordem em `slide.tex`. Alterações técnicas podem alcançar o tema compartilhado e `recursos/apresentacao/`; preserve `slide.tex` como entrada estável.
 
 ## Restrições
 

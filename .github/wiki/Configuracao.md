@@ -10,7 +10,7 @@ Em [`.config/modelo.tex`](../../.config/modelo.tex), escolha uma destas três op
 \def\ModeloDocumento{artigo}
 ```
 
-O valor selecionado é usado apenas quando `main.tex` é compilado. Não use `apresentacao` nesse arquivo: a apresentação é compilada a partir de `slide.tex`.
+O valor selecionado é usado apenas quando `main.tex` é compilado. Não use `apresentacao` nesse arquivo: a apresentação é compilada a partir de `modelos/apresentacao/slide.tex`.
 
 ## Dados compartilhados
 
@@ -48,6 +48,6 @@ Os arquivos `exemploFichaCatalografica.pdf` e `exemploAtaDefesa.pdf` são refer�
 
 ## Conteúdo e referências
 
-O ponto de entrada da monografia, relatório e artigo é [`main.tex`](../../main.tex). A apresentação usa [`slide.tex`](../../slide.tex), que carrega dados, opções, slides de `modelos/apresentacao/slides/` e as referências de [`recursos/referencias/referencias.bib`](../../recursos/referencias/referencias.bib).
+O ponto de entrada da monografia, relatório e artigo é [`main.tex`](../../main.tex). A apresentação usa [`modelos/apresentacao/slide.tex`](../../modelos/apresentacao/slide.tex), que carrega dados, opções, slides de `modelos/apresentacao/slides/` e as referências de [`recursos/referencias/referencias.bib`](../../recursos/referencias/referencias.bib).
 
 Use os arquivos de modelo como ponto de partida e mantenha os caminhos relativos. Há exemplos de figuras, quadros, cronograma e código em [`recursos/exemplos/`](../../recursos/exemplos/).

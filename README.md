@@ -21,7 +21,7 @@ Templates LaTeX para trabalhos acadêmicos do IFSP — Câmpus São João da Boa
 3. Ajuste os elementos opcionais em `.config/opcoes.tex`.
 4. Escreva nas pastas correspondentes em `modelos/`.
 
-A apresentação usa a entrada independente `slide.tex`. As referências compartilhadas ficam em `recursos/referencias/referencias.bib`.
+A apresentação usa a entrada independente `modelos/apresentacao/slide.tex`. As referências compartilhadas ficam em `recursos/referencias/referencias.bib`.
 
 ## Manuais
 
@@ -30,11 +30,11 @@ Manuais detalhados estão disponíveis na [Wiki do projeto](https://github.com/g
 ## Estrutura
 
 ```text
-main.tex                 documento selecionado
-slide.tex                apresentação
-.config/                 dados, opções, Makefile, scripts e estilos
-modelos/                 monografia, relatório, artigo e slides
-recursos/                 imagens, documentos, exemplos e referências
+main.tex                         documento selecionado
+modelos/apresentacao/slide.tex   apresentação
+.config/                         dados, opções, Makefile, scripts e estilos
+modelos/                         monografia, relatório, artigo e slides
+recursos/                         imagens, documentos, exemplos e referências
 ```
 
 ## Compilação
@@ -54,7 +54,7 @@ Os PDFs são gravados em `artifacts/`.
 
 ```bash
 latexmk -pdf main.tex
-latexmk -pdf slide.tex
+latexmk -pdf modelos/apresentacao/slide.tex
 ```
 
 ## Validação

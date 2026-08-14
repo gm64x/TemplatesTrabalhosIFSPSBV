@@ -1,4 +1,4 @@
-O template separa o documento em arquivos pequenos. Comece configurando `.config/dados.tex`, escolhendo as opções em `.config/opcoes.tex` e escrevendo nos arquivos de `modelos/`. A entrada `main.tex` seleciona monografia, relatório ou artigo; `slide.tex` compila a apresentação. Veja também [Exemplos práticos](Exemplos-praticos) e [Referências bibliográficas](Referencias-bibliograficas).
+O template separa o documento em arquivos pequenos. Comece configurando `.config/dados.tex`, escolhendo as opções em `.config/opcoes.tex` e escrevendo nos arquivos de `modelos/`. A entrada `main.tex` seleciona monografia, relatório ou artigo; `modelos/apresentacao/slide.tex` compila a apresentação. Veja também [Exemplos práticos](Exemplos-praticos) e [Referências bibliográficas](Referencias-bibliograficas).
 
 ## Estrutura de um texto
 

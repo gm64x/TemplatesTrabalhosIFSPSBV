@@ -35,7 +35,7 @@ build_main() {
 build_presentation() {
     output_name="${OUTPUT_NAME:-apresentacao.pdf}"
     latexmk -pdf -interaction=nonstopmode -halt-on-error \
-        -outdir="$tmp_dir/presentation" slide.tex
+        -outdir="$tmp_dir/presentation" modelos/apresentacao/slide.tex
     test -s "$tmp_dir/presentation/slide.pdf"
     validate_pdf "$tmp_dir/presentation/slide.pdf" \
         "$tmp_dir/presentation/slide.log"

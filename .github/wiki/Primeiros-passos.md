@@ -21,7 +21,7 @@ Ao trabalhar no repositório clonado, abra [`.config/modelo.tex`](../../.config/
 \def\ModeloDocumento{monografia}
 ```
 
-No repositório, `main.tex` lê essa configuração e inclui `modelos/<modelo>/documento.tex`. Nos pacotes de release, o modelo já está selecionado e `documento.tex` fica na raiz; não é necessário mover arquivos nem trocar o modelo. A apresentação é independente: sua entrada é [`slide.tex`](../../slide.tex) e não depende do valor de `\ModeloDocumento`.
+No repositório, `main.tex` lê essa configuração e inclui `modelos/<modelo>/documento.tex`. Nos pacotes de release, o modelo já está selecionado e `documento.tex` fica na raiz; não é necessário mover arquivos nem trocar o modelo. A apresentação é independente: sua entrada é [`modelos/apresentacao/slide.tex`](../../modelos/apresentacao/slide.tex) e não depende do valor de `\ModeloDocumento`.
 
 ## 3. Preencha os dados
 

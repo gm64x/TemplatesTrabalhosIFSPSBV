@@ -11,7 +11,7 @@ make -f .config/Makefile artigo
 make -f .config/Makefile apresentacao
 ```
 
-Os três primeiros alvos compilam `main.tex` com o modelo correspondente. O alvo `apresentacao` compila `slide.tex`. Cada comando constrói a imagem Docker necessária, executa o compilador em um diretório temporário e grava o PDF em `artifacts/` (`monografia.pdf`, `relatorio.pdf`, `artigo.pdf` ou `apresentacao.pdf`).
+Os três primeiros alvos compilam `main.tex` com o modelo correspondente. O alvo `apresentacao` compila `modelos/apresentacao/slide.tex`. Cada comando constrói a imagem Docker necessária, executa o compilador em um diretório temporário e grava o PDF em `artifacts/` (`monografia.pdf`, `relatorio.pdf`, `artigo.pdf` ou `apresentacao.pdf`).
 
 Para compilar um modelo por variável, use o alvo `pdf` (o padrão é `monografia`):
 
@@ -37,7 +37,7 @@ Com `latexmk` e as dependências LaTeX instaladas, execute na raiz:
 
 ```bash
 latexmk -pdf main.tex
-latexmk -pdf slide.tex
+latexmk -pdf modelos/apresentacao/slide.tex
 ```
 
 O primeiro usa o valor de [`.config/modelo.tex`](../../.config/modelo.tex); o segundo gera `slide.pdf`. Nesse modo os arquivos ficam no diretório de trabalho, não em `artifacts/`.
