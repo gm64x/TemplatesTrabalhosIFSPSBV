@@ -2,25 +2,25 @@ Bem-vindo à documentação dos templates LaTeX para trabalhos acadêmicos do IF
 
 ## Escolha um modelo
 
-| O que você precisa entregar | Modelo/entrada | Onde começar |
-| --- | --- | --- |
-| Trabalho acadêmico completo, com capítulos, elementos pré-textuais e pós-textuais | **Monografia** | `modelos/monografia/` |
-| Documento técnico organizado em introdução, metodologia, análise e recomendações | **Relatório técnico** | `modelos/relatorio/` |
-| Texto acadêmico em formato mais enxuto, dividido em seções | **Artigo** | `modelos/artigo/` |
-| Slides para apresentar o trabalho | **Apresentação** | `modelos/apresentacao/` e `slide.tex` |
+| O que você precisa entregar | Modelo | No repositório | No pacote da release |
+| --- | --- | --- | --- |
+| Trabalho acadêmico completo, com capítulos, elementos pré-textuais e pós-textuais | **Monografia** | `modelos/monografia/` | `capitulos/`, `pretextuais/` e `postextuais/` |
+| Documento técnico organizado em introdução, metodologia, análise e recomendações | **Relatório técnico** | `modelos/relatorio/` | `capitulos/` e `pretextuais/` |
+| Texto acadêmico em formato mais enxuto, dividido em seções | **Artigo** | `modelos/artigo/` | `secoes/` |
+| Slides para apresentar o trabalho | **Apresentação** | `modelos/apresentacao/` | `slides/` e `slide.tex` |
 
 Monografia, relatório e artigo são selecionados em `.config/modelo.tex`. A apresentação é uma entrada independente e não é selecionada nesse arquivo.
 
 ## Início rápido
 
 1. Baixe o modelo desejado na página de [Releases](../releases) ou clone este repositório.
-2. Para monografia, relatório ou artigo, selecione o valor correspondente (`monografia`, `relatorio` ou `artigo`) em `.config/modelo.tex`.
-3. Preencha título, autoria, curso, orientação, local, data e palavras-chave em `.config/dados.tex`.
-4. Ative ou desative elementos opcionais em `.config/opcoes.tex`.
-5. Escreva nos arquivos da pasta do modelo escolhido em `modelos/`.
+2. Se baixou um ZIP, extraia-o em uma pasta vazia. `main.tex`, `.config/`, `recursos/` e as pastas de conteúdo ficam diretamente nessa raiz, sem uma pasta `modelos/` intermediária.
+3. Se clonou o repositório, selecione `monografia`, `relatorio` ou `artigo` em `.config/modelo.tex` e edite o conteúdo em `modelos/<modelo>/`.
+4. Preencha título, autoria, curso, orientação, local, data e palavras-chave em `.config/dados.tex`.
+5. Ative ou desative elementos opcionais em `.config/opcoes.tex`.
 6. Compile o documento e confira o PDF gerado em `artifacts/`.
 
-Para uma apresentação, edite os arquivos em `modelos/apresentacao/` e compile `slide.tex`.
+Na release exclusiva de apresentação, edite `slides/` e compile `slide.tex`. No repositório, os mesmos arquivos ficam em `modelos/apresentacao/`.
 
 ## Compilação rápida
 

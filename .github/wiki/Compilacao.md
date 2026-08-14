@@ -67,6 +67,6 @@ O script `smoke-test.sh --no-cache` remove e recria `artifacts/`, compila os qua
 ## Problemas comuns
 
 - **PDF desatualizado:** confirme que está executando o comando na raiz e que editou o arquivo do modelo selecionado.
-- **Erro de arquivo ausente:** preserve a estrutura de `modelos/`, `recursos/` e `.config/`; os caminhos são relativos.
+- **Erro de arquivo ausente:** preserve a estrutura extraída. No repositório, o conteúdo fica em `modelos/`; nos pacotes de release, as pastas do modelo ficam na raiz. Em ambos os casos, os caminhos para `.config/` e `recursos/` são relativos.
 - **Referência ou citação indefinida no Docker:** o script interrompe a compilação quando o log contém referências ou citações indefinidas; confira a chave usada no `.bib` e compile novamente.
 - **Falha de dependência local:** use Docker ou instale as dependências listadas no [`Dockerfile`](../../Dockerfile).

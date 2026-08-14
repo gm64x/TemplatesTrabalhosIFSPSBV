@@ -2,7 +2,7 @@ Este repositório fornece modelos LaTeX baseados em abnTeX2 para monografia, rel
 
 ## 1. Obtenha uma cópia do modelo
 
-Clone o repositório ou baixe o arquivo desejado na página de [Releases](../releases). Se você baixar um pacote de release, mantenha a estrutura de pastas original: `main.tex` e `slide.tex` dependem de arquivos em `.config/`, `modelos/` e `recursos/`.
+Clone o repositório ou baixe o arquivo desejado na página de [Releases](../releases). Os ZIPs são preparados para extração direta: crie uma pasta vazia para o trabalho e extraia nela o conteúdo do arquivo. `main.tex`, `.config/`, `recursos/` e as pastas do modelo ficarão diretamente na raiz, sem outra pasta `template-*` ou `modelos/<modelo>` por dentro.
 
 Para trabalhar com Git:
 
@@ -11,17 +11,17 @@ git clone <URL_DO_REPOSITORIO>
 cd templates-tcc
 ```
 
-`<URL_DO_REPOSITORIO>` deve ser substituída pela URL exibida no botão **Code** do repositório. Não mova apenas um arquivo `.tex` para outra pasta.
+`<URL_DO_REPOSITORIO>` deve ser substituída pela URL exibida no botão **Code** do repositório. Em qualquer modo, não mova apenas um arquivo `.tex` para outra pasta.
 
 ## 2. Escolha o documento
 
-Abra [`.config/modelo.tex`](../../.config/modelo.tex). A macro `\ModeloDocumento` aceita exatamente `monografia`, `relatorio` ou `artigo`:
+Ao trabalhar no repositório clonado, abra [`.config/modelo.tex`](../../.config/modelo.tex). A macro `\ModeloDocumento` aceita exatamente `monografia`, `relatorio` ou `artigo`:
 
 ```tex
 \def\ModeloDocumento{monografia}
 ```
 
-`main.tex` lê essa configuração e inclui `modelos/<modelo>/documento.tex`. A apresentação é independente: sua entrada é [`slide.tex`](../../slide.tex) e não depende do valor de `\ModeloDocumento`.
+No repositório, `main.tex` lê essa configuração e inclui `modelos/<modelo>/documento.tex`. Nos pacotes de release, o modelo já está selecionado e `documento.tex` fica na raiz; não é necessário mover arquivos nem trocar o modelo. A apresentação é independente: sua entrada é [`slide.tex`](../../slide.tex) e não depende do valor de `\ModeloDocumento`.
 
 ## 3. Preencha os dados
 
@@ -35,12 +35,20 @@ Em [`.config/opcoes.tex`](../../.config/opcoes.tex), cada elemento é controlado
 
 ## 5. Escreva o trabalho
 
-Edite somente o modelo escolhido em `modelos/`:
+No repositório clonado, edite somente o modelo escolhido em `modelos/`:
 
 - `modelos/monografia/`: capítulos, elementos pré-textuais, apêndices e anexos;
 - `modelos/relatorio/`: capítulos e elementos pré-textuais;
 - `modelos/artigo/`: seções do artigo;
 - `modelos/apresentacao/slides/`: slides da apresentação.
+
+Nos pacotes de release, essas pastas de conteúdo ficam na raiz:
+
+- monografia: `capitulos/`, `pretextuais/` e `postextuais/`;
+- relatório: `capitulos/` e `pretextuais/`;
+- artigo: `secoes/`;
+- apresentação: `slides/`;
+- pacote com apresentação: conteúdo do documento na raiz e slides em `apresentacao/slides/`.
 
 As referências compartilhadas ficam em [`recursos/referencias/referencias.bib`](../../recursos/referencias/referencias.bib). Imagens e documentos de apoio ficam em `recursos/`. Preserve os caminhos usados nos comandos `\input`, `\includegraphics` e `\includepdf`.
 

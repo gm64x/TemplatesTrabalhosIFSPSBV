@@ -273,7 +273,7 @@ jobs:
           set -euo pipefail
           copy_base() {
             destination="$1"
-            mkdir -p "$destination/modelos"
+            mkdir -p "$destination"
             cp -R .agents .config recursos "$destination/"
             cp .dockerignore .gitignore Dockerfile LICENSE.md README.md "$destination/"
           }
@@ -282,11 +282,12 @@ jobs:
             destination="release/template-$model"
             copy_base "$destination"
             cp main.tex "$destination/"
-            cp -R "modelos/$model" "$destination/modelos/"
+            cp -R "modelos/$model/." "$destination/"
             sed -i "s/{monografia}/{${model}}/" "$destination/.config/modelo.tex"
+            sed -i "s|modelos/$model/||g" "$destination/main.tex" "$destination/documento.tex"
             rm -f "$destination/.config/tex/estrutura/apresentacao.sty"
             rm -rf "$destination/recursos/apresentacao"
-            (cd release && zip -qr "template-$model.zip" "template-$model")
+            (cd "$destination" && zip -qr "../template-$model.zip" .)
             rm -rf "$destination"
           }
           create_combined() {
@@ -294,9 +295,12 @@ jobs:
             destination="release/template-$model-com-apresentacao"
             copy_base "$destination"
             cp main.tex slide.tex "$destination/"
-            cp -R "modelos/$model" modelos/apresentacao "$destination/modelos/"
+            cp -R "modelos/$model/." "$destination/"
+            cp -R modelos/apresentacao "$destination/apresentacao"
             sed -i "s/{monografia}/{${model}}/" "$destination/.config/modelo.tex"
-            (cd release && zip -qr "template-$model-com-apresentacao.zip" "template-$model-com-apresentacao")
+            sed -i "s|modelos/$model/||g" "$destination/main.tex" "$destination/documento.tex"
+            sed -i 's|modelos/apresentacao/|apresentacao/|g' "$destination/slide.tex" "$destination/apresentacao/documento.tex"
+            (cd "$destination" && zip -qr "../template-$model-com-apresentacao.zip" .)
             rm -rf "$destination"
           }
           create_presentation() {
@@ -304,11 +308,12 @@ jobs:
             copy_base "$destination"
             cp slide.tex "$destination/slide.tex"
             cp slide.tex "$destination/main.tex"
-            cp -R modelos/apresentacao "$destination/modelos/"
+            cp -R modelos/apresentacao/. "$destination/"
+            sed -i 's|modelos/apresentacao/||g' "$destination/main.tex" "$destination/slide.tex" "$destination/documento.tex"
             rm -f "$destination/.config/modelo.tex"
             rm -f "$destination/.config/tex/estrutura/academico.sty"
             rm -rf "$destination/recursos/documentos"
-            (cd release && zip -qr template-apresentacao.zip template-apresentacao)
+            (cd "$destination" && zip -qr ../template-apresentacao.zip .)
             rm -rf "$destination"
           }
           for model in monografia relatorio artigo; do
@@ -318,7 +323,12 @@ jobs:
           create_presentation
           for archive in release/*.zip; do
             unzip -tqq "$archive"
+            if unzip -Z1 "$archive" | grep -Eq '^(\./)?(modelos|template-[^/]+)/'; then
+              echo "Unexpected top-level directory in $archive" >&2
+              exit 1
+            fi
           done
+          unzip -Z1 release/template-relatorio.zip | grep -Eq '^(\./)?capitulos/'
       - name: Publish release
         env:
           GH_TOKEN: ${{ github.token }}
