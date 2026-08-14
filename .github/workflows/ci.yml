@@ -183,6 +183,7 @@ jobs:
     name: Publish ${{ matrix.model }} image
     needs: [changes, validate-release]
     if: >-
+      always() &&
       needs.validate-release.result == 'success' &&
       github.event_name != 'pull_request' &&
       (needs.changes.outputs.docker == 'true' ||
@@ -226,6 +227,7 @@ jobs:
     name: Synchronize optional Overleaf project
     needs: validate-release
     if: >-
+      always() &&
       needs.validate-release.result == 'success' &&
       (github.ref == 'refs/heads/master' || github.ref == 'refs/heads/main')
     runs-on: ubuntu-latest
@@ -249,6 +251,7 @@ jobs:
     name: Publish GitHub Release
     needs: validate-release
     if: >-
+      always() &&
       needs.validate-release.result == 'success' &&
       startsWith(github.ref, 'refs/tags/v')
     runs-on: ubuntu-latest
